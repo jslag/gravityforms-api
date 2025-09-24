@@ -18,7 +18,7 @@ module Gravityforms
         @url = "#{api_url}#{route}/#{encode}"
 
         request_params = {timeout:}
-        request_params[proxy] = proxy if proxy
+        request_params[:proxy] = proxy if proxy
 
         @connection = Faraday::Connection.new(nil, request: request_params)
       end
