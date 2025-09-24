@@ -7,6 +7,7 @@ module Gravityforms
   module Api
     class Request
       attr_reader :url
+
       def initialize(route, method, per_page = 20, offset = 0, timeout = 5)
         expires = (Time.now + 60 * 60).to_i
         api_key = Gravityforms::Api.configuration.api_key
@@ -19,6 +20,8 @@ module Gravityforms
 
         request_params = {timeout:}
         request_params[:proxy] = proxy if proxy
+
+        debugger
 
         @connection = Faraday::Connection.new(nil, request: request_params)
       end
