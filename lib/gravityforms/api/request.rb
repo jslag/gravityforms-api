@@ -18,10 +18,8 @@ module Gravityforms
         encode = "?api_key=#{api_key}&expires=#{expires}&signature=#{signature}&paging[page_size]=#{per_page}&paging[offset]=#{offset}"
         @url = "#{api_url}#{route}/#{encode}"
 
-        request_params = {timeout:}
+        request_params = {request: {timeout:}}
         request_params[:proxy] = proxy if proxy
-
-        debugger
 
         @connection = Faraday::Connection.new(nil, request: request_params)
       end
