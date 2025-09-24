@@ -7,21 +7,23 @@ module Gravityforms
   module Api
     class Request
       attr_reader :url
-      def initialize(route, method, per_page=20, offset=0)
+      def initialize(route, method, per_page=20, offset=0, timeout=5)
         expires = (Time.now+60*60).to_i
         api_key = Gravityforms::Api.configuration.api_key
         api_url = Gravityforms::Api.configuration.api_url
         signature = calculate_signature(route, method, expires, api_key)
         encode = "?api_key=#{api_key}&expires=#{expires}&signature=#{signature}&paging[page_size]=#{per_page}&paging[offset]=offset"
         @url = "#{api_url}#{route}/#{encode}"
+
+        @connection = Faraday::Connection.new(nil, request: { timeout: timeout })
       end
 
       def get
-        response = Faraday.get(self.url)
+        response = @connection.get(self.url)
       end
 
       def post(payload)
-        response = Faraday.post(self.url, payload)
+        response = @connection.post(self.url, payload)
       end
 
       def calculate_signature(route, method, expires, api_key)
