@@ -11,6 +11,8 @@ module Gravityforms
         expires = (Time.now + 60 * 60).to_i
         api_key = Gravityforms::Api.configuration.api_key
         api_url = Gravityforms::Api.configuration.api_url
+        proxy = Gravityforms::Api.configuration.proxy
+
         signature = calculate_signature(route, method, expires, api_key)
         encode = "?api_key=#{api_key}&expires=#{expires}&signature=#{signature}&paging[page_size]=#{per_page}&paging[offset]=#{offset}"
         @url = "#{api_url}#{route}/#{encode}"
